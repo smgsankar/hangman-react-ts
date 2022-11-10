@@ -11,7 +11,7 @@ const Header = (props: HeaderPropsType) => {
 
   return (
     <div style={styles.wrapper}>
-      <h1>Hangman</h1> 
+      <h1>Hangman - Guess the word</h1> 
       <h3>{status}</h3>
     </div>
   );
