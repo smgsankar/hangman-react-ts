@@ -42,6 +42,10 @@ const App = () => {
   useEffect(() => {
     const keyPressHandler = (e: KeyboardEvent) => {
       const key = e.key;
+      if(key === ' '){
+        restartGame();
+        return;
+      }
       if (!key.match(/^[a-z]$/)) return;
       addGuess(key.toUpperCase());
     }
