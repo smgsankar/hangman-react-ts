@@ -54,7 +54,7 @@ const App = () => {
     return () => {
       document.removeEventListener('keypress', keyPressHandler);
     }
-  }, [letterGuesses, addGuess]);
+  }, [letterGuesses, addGuess, restartGame]);
   
   return (
     <div style={styles.wrapper}>
