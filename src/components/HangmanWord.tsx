@@ -17,14 +17,15 @@ const HangmanWord = (props: HangmanWordPropsType) => {
         return (
           <div 
             key={`${letter}-${index}`}
-            style={
-              {
-                ...styles.letter, 
-                ...isVisible ? styles.correct : styles.invisible,
-                ...missedLetter ? styles.incorrect : {},
-              }
-            }>
-            {letter}
+            style={styles.letter}
+          >
+            <div style={{
+              ...isVisible ? styles.correct : styles.invisible,
+              ...missedLetter ? styles.incorrect : {},
+            }}>
+              {letter}
+            </div>
+            <div style={styles.blank} />
           </div>
         )}
       )}
@@ -43,18 +44,21 @@ const styles: Record<string, CSSProperties> = {
     fontSize: 32,
     fontWeight: 500,
     textAlign: 'center',
-    borderBottomWidth: 5,
-    borderBottomStyle: 'solid',
-    borderBottomColor: 'black', 
+  },
+  blank: {
+    height: 5,
+    backgroundColor: 'black', 
   },
   incorrect: {
+    visibility: 'visible',
     color: 'red',
   },
   visible: {
+    visibility: 'visible',
     color: 'black',
   },
   invisible: {
-    color: 'transparent',
+    visibility: 'hidden',
   }
 }
 

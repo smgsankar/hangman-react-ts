@@ -17,7 +17,7 @@ const styles: Record<string, CSSProperties> = {
   restartBtn: {
     textAlign: 'center',
     padding: 16,
-    fontSize: 32,
+    fontSize: '3vh',
     borderWidth: 2,
     borderStyle: 'solid',
     borderColor: 'gray',

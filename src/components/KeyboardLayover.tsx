@@ -1,4 +1,4 @@
-import { CSSProperties, MouseEvent } from "react";
+import { CSSProperties, MouseEvent, useEffect, useState } from "react";
 import { LETTERS } from "../constants";
 import Actions from "./Actions";
 
@@ -13,32 +13,54 @@ interface KeyboardLayoverPropsType {
 const KeyboardLayover = (props: KeyboardLayoverPropsType) => {
   const { addGuess, wordToGuess, letterGuesses, gameDone, restartGame } = props;
 
+  const [showVirtualKeyboard, setShowVirtualKeyboard] = useState<boolean>(false);
+
   const onKeyClick = (e: MouseEvent<HTMLDivElement>) => {
     if(!gameDone)
       addGuess(e.currentTarget.innerText);
   }
+
+  useEffect(() => {
+    setShowVirtualKeyboard(window.innerHeight > 840 && window.innerWidth > 800);
+    const resizeCallback = () => {
+      setShowVirtualKeyboard(window.innerHeight > 840 && window.innerWidth > 800);
+    }
+    window.addEventListener('resize', resizeCallback);
+    return () => {
+      window.removeEventListener('resize', resizeCallback);
+    }
+  }, []);
+
   return (
-    <div style={styles.keyboardWrapper}>
-      {LETTERS.map(letter => {
-        const letterUpper = letter.toUpperCase();
-        const correctGuess = letterGuesses.includes(letterUpper) && wordToGuess.includes(letterUpper);
-        const incorrectGuess = letterGuesses.includes(letterUpper) && !wordToGuess.includes(letterUpper);
-        return (
-          <div 
-            key={letterUpper}
-            style={{
-              ...styles.letter,
-              ...correctGuess ? styles.selected : {},
-              ...incorrectGuess ? styles.disabled : {},
-            }}
-            onClick={onKeyClick}
-          >
-            {letterUpper}
+    <>
+      {showVirtualKeyboard ? (
+        <div style={styles.keyboardWrapper}>
+          <div style={styles.letters}>
+            {LETTERS.map(letter => {
+              const letterUpper = letter.toUpperCase();
+              const correctGuess = letterGuesses.includes(letterUpper) && wordToGuess.includes(letterUpper);
+              const incorrectGuess = letterGuesses.includes(letterUpper) && !wordToGuess.includes(letterUpper);
+              return (
+                <div 
+                  key={letterUpper}
+                  style={{
+                    ...styles.letter,
+                    ...correctGuess ? styles.selected : {},
+                    ...incorrectGuess ? styles.disabled : {},
+                  }}
+                  onClick={onKeyClick}
+                >
+                  {letterUpper}
+                </div>
+              )}
+            )}
           </div>
-        )}
+          <Actions restartGame={restartGame} />
+        </div>
+      ): (
+        <></>
       )}
-      <Actions restartGame={restartGame} />
-    </div>
+    </>
   );
 }
 
@@ -46,12 +68,11 @@ const styles: Record<string, CSSProperties> = {
   keyboardWrapper: {
     position: 'fixed',
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
+    justifyContent: 'center',
     gap: 8,
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
     bottom: 0,
-    height: 240,
+    height: '24vh',
     width: '100%',
     padding: 24,
     maxWidth: 800,
@@ -59,11 +80,15 @@ const styles: Record<string, CSSProperties> = {
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },
+  letters: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(13, 1fr)',
+    gap: 8,
+  },
   letter: {
-    width: 29,
     textAlign: 'center',
     padding: 16,
-    fontSize: 32,
+    fontSize: '2vh',
     borderWidth: 2,
     borderStyle: 'solid',
     borderColor: 'gray',

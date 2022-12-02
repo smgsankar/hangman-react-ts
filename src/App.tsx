@@ -16,7 +16,7 @@ const App = () => {
 
   const incorrectGuessCount: number = useMemo(() => {
     return letterGuesses.filter(letter => !(wordToGuess.includes(letter))).length;
-  }, [letterGuesses]);
+  }, [letterGuesses, wordToGuess]);
 
   const gameOver: boolean = useMemo(() => {
     return incorrectGuessCount > 5;
@@ -50,7 +50,7 @@ const App = () => {
     return () => {
       document.removeEventListener('keypress', keyPressHandler);
     }
-  }, [letterGuesses]);
+  }, [letterGuesses, addGuess]);
   
   return (
     <div style={styles.wrapper}>

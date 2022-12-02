@@ -8,20 +8,20 @@ const HangmanDiagram = (props: HangmanDiagramPropsType) => {
   const { incorrectGuessCount } = props;
 
   const hangmanParts = [
-    <div style={styles.hangmanHead} />,
-    <div style={styles.hangmanBody} />,
-    <div style={styles.leftArm} />,
-    <div style={styles.rightArm} />,
-    <div style={styles.leftLeg} />,
-    <div style={styles.rightLeg} />,
+    <div key="hangmanHead" style={styles.hangmanHead} />,
+    <div key="hangmanBody" style={styles.hangmanBody} />,
+    <div key="leftArm" style={styles.leftArm} />,
+    <div key="rightArm" style={styles.rightArm} />,
+    <div key="leftLeg" style={styles.leftLeg} />,
+    <div key="rightLeg" style={styles.rightLeg} />,
   ];
 
   return (
     <div style={styles.hangmanWrapper}>
-      <div style={styles.lever} />
-      <div style={styles.verticalSupport} />
-      <div style={styles.base} />
-      <div style={styles.hanger} />
+      <div key="lever" style={styles.lever} />
+      <div key="verticalSupport" style={styles.verticalSupport} />
+      <div key="base" style={styles.base} />
+      <div key="hanger" style={styles.hanger} />
       {hangmanParts.splice(0, incorrectGuessCount)}    
     </div>
   );
@@ -30,6 +30,8 @@ const HangmanDiagram = (props: HangmanDiagramPropsType) => {
 const styles: Record<string, CSSProperties> = {
   hangmanWrapper: {
     position: 'relative',
+    margin: 16,
+    translate: -30,
   },
   base: {
     width: 200,
